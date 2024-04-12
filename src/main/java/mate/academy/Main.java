@@ -18,6 +18,8 @@ import mate.academy.service.ShoppingCartService;
 
 public class Main {
     private static final Injector INJECTOR = Injector.getInstance("mate.academy");
+    private static final String USER_EMAIL = "test@aa.bb";
+    private static final String USER_PASSWORD = "1234";
 
     public static void main(String[] args) {
         MovieService movieService = (MovieService) INJECTOR.getInstance(MovieService.class);
@@ -63,22 +65,19 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                 fastAndFurious.getId(), LocalDate.now()));
 
-        String userEmail = "test@aa.bb";
-        String userPassword = "1234";
-
         AuthenticationService authenticationService
                 = (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
         try {
-            authenticationService.register(userEmail, userPassword);
+            authenticationService.register(USER_EMAIL, USER_PASSWORD);
         } catch (RegistrationException e) {
-            throw new RuntimeException("Can't register new user with email: " + userEmail, e);
+            throw new RuntimeException("Can't register new user with email: " + USER_EMAIL, e);
         }
 
         User user = null;
         try {
-            user = authenticationService.login(userEmail, userPassword);
+            user = authenticationService.login(USER_EMAIL, USER_PASSWORD);
         } catch (AuthenticationException e) {
-            throw new RuntimeException("Can't login with email: " + userEmail, e);
+            throw new RuntimeException("Can't login with email: " + USER_EMAIL, e);
         }
 
         ShoppingCartService shoppingCartService
